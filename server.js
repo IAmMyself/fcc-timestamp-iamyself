@@ -5,6 +5,7 @@ var url = require('url');
 var express = require('express');
 
 var server = http.createServer(function (req, res) {
+  console.log("Server begins")
     var request = url.parse(req.url, true);
     if (request.pathname == '' || request.pathname == '/') {
         request.pathname = "/" + (Math.floor(Date.now() / 1000)).toString();
