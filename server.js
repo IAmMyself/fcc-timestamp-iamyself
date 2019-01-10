@@ -1,23 +1,43 @@
-var http = require('http');
-var fs = require('fs');
-var url = require('url');
+// server.js
+// where your node app starts
+
+// init project
 var express = require('express');
+var app = express();
 
-var server = http.createServer(function (req, res) {
-  console.log("Server begins")
-    var request = url.parse(req.url, true);
-    if (request.pathname == '' || request.pathname == '/') {
-        request.pathname = "/" + (Math.floor(Date.now() / 1000)).toString();
+// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+// so that your API is remotely testable by FCC 
+var cors = require('cors');
+app.use(cors({optionSuccessStatus: 200}));  // some legacy browsers choke on 204
+
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + '/views/index.html');
+});
+
+
+// your first API endpoint... 
+app.get("/api/timestamp/:date", function (req, res) {
+  var date = new Date();
+  if (req.params.date != undefined) {
+    date = new Date(req.params.date);
+    if(date == "Invalid Date") {
+        date = new Date(Number(req.params.date));
     }
-    var date = request.pathname.slice(1).split("%20").join(' ');
-    var unixtime = Date.parse(date)/1000;
-    if(!isNaN(date)) {
-        unixtime = date;
-        date = new Date(Number(date) * 1000);
-        date = date.toString().slice(0, 15);
-    }
-    res.end(JSON.stringify({'unixtime': unixtime, "Natural": date}))
-  })
+  }
+    res.send({
+      unix: date.getTime(), 
+      utc : date.toUTCString()
+    });
+  res.end();
+});
 
 
-server.listen(process.env.PORT)
+
+// listen for requests :)
+var listener = app.listen(process.env.PORT || 3000, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
+});

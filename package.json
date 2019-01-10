@@ -1,14 +1,27 @@
 {
-  "name": "timestamp-try2",
+  "name": "fcc-api-projects-boilerplate",
   "version": "0.0.1",
-  "description": "Timestamp Microservice",
+  "description": "An FCC Backend Challenge",
   "main": "server.js",
-  "repository": "",
-  "author": "Mateo Pool <loopoetam@gmail.com>",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
-    "async": "~0.2.8",
-    "express": "^3.2.6",
-    "moment": "^2.12.0",
-    "socket.io": "~0.9.14"
-  }
+    "express": "^4.16.4",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": "4.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://githost.com/camper/repo.git"
+  },
+  "keywords": [
+    "node",
+    "hyperdev",
+    "express",
+    "freecodecamp"
+  ],
+  "license": "MIT"
 }
